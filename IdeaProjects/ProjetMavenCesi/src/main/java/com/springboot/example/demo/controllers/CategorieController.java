@@ -5,6 +5,7 @@ import com.springboot.example.demo.entities.Categorie;
 import com.springboot.example.demo.services.BookService;
 import com.springboot.example.demo.services.CategorieService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +18,14 @@ public class CategorieController {
 
     private CategorieService catService;
 
+    @Value("${welcome.message}")
+    private String message;
+
+    @Value("${error.message}")
+    private String errorMessage;
+    @Value("${intro.message}")
+    private String introMessage;
+
     @Autowired
     public CategorieController(final CategorieService catsvc){
         this.catService = catsvc;
@@ -24,20 +33,21 @@ public class CategorieController {
 
     @GetMapping(value = "/categorie/{CategorieID}")
     @ResponseBody
-    Categorie getBookById(@PathVariable final Integer CategorieID) {
+    Categorie getCategorieById(@PathVariable final Integer CategorieID) {
         System.out.println("polop");
+        System.out.println("categorie : " + this.catService.getCategorieById(CategorieID).getCategorieName());
         return this.catService.getCategorieById(CategorieID);
     }
 
     @GetMapping(value = "/categorie")
     @ResponseBody
-    List<Categorie> getAllBooks() {
+    List<Categorie> getAllCategories() {
         return this.catService.getAllCategories();
     }
 
     @PostMapping(value = "/categorie")
     @ResponseStatus(HttpStatus.OK)
-    void addBook(@RequestBody Categorie cat){
+    void addCategorie(@RequestBody Categorie cat){
         this.catService.addCategorie(cat);
     }
 

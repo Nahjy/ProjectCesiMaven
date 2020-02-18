@@ -1,8 +1,6 @@
 package com.springboot.example.demo.repositories;
 
-import com.springboot.example.demo.entities.Book;
 import com.springboot.example.demo.entities.Categorie;
-import jdk.jfr.Category;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -14,13 +12,22 @@ public class CategoryRepositoryInMemory implements CategorieRepository {
 
     public CategoryRepositoryInMemory() {
         this.category = new ArrayList<>();
+        this.category.add(new Categorie((long) 1, "Test"));
     }
 
-    public Categorie getCategorieById(Integer catId) {
+    public Categorie getCategorieById(Long catId) {
         for(Categorie b : this.category){
             if(b.getId() == catId) return b;
         }
 
+        return null;
+    }
+
+    @Override
+    public Categorie getCategorieById(Integer catId) {
+        for(Categorie b : this.category){
+            if(b.getId() == catId.longValue()) return b;
+        }
         return null;
     }
 
