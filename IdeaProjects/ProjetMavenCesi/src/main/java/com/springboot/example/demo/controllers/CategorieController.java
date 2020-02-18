@@ -23,12 +23,21 @@ public class CategorieController {
 
     @Value("${error.message}")
     private String errorMessage;
+
     @Value("${intro.message}")
     private String introMessage;
 
     @Autowired
     public CategorieController(final CategorieService catsvc){
         this.catService = catsvc;
+    }
+
+
+
+    @GetMapping(value = "/")
+    @ResponseBody
+    public String index() {
+        return this.introMessage;
     }
 
     @GetMapping(value = "/categorie/{CategorieID}")
